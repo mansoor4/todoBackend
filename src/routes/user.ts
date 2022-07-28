@@ -10,11 +10,12 @@ import upload from '../serverConfig/multer';
 import {
     getUser, updateUser,
 } from '../controllers/user';
+import cloudinaryUpload from '../middlewares/index/cloudinaryUpload';
 
 const router = Router();
 
 router.get('/', isAuthenticated, getUser);
-router.put('/', upload.single('profile'), userValidation, validationError, isAuthenticated, updateUser);
+router.put('/', upload.single('profile'), cloudinaryUpload, userValidation, validationError, isAuthenticated, updateUser);
 
 
 export default router;

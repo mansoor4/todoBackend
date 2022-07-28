@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import errorHandler from './errorHandler';
 
-const deleteImage = (fileName: string): Promise<Boolean> => {
+const deleteLocalImage = (fileName: string): Promise<Boolean> => {
     const filePath = path.resolve(__dirname, '..', '..', 'assets', fileName);
     return new Promise<Boolean>((resolve, reject) => {
         fs.unlink(filePath, (err) => {
@@ -12,4 +12,4 @@ const deleteImage = (fileName: string): Promise<Boolean> => {
     });
 };
 
-export default deleteImage;
+export default deleteLocalImage;

@@ -6,16 +6,16 @@ import jwt from 'jsonwebtoken';
 import db from '../db';
 import errorHandler from '../utils/errorHandler';
 import { SERVER } from '../types/config';
-import deleteImage from '../utils/deleteImage';
+import deleteCloudinaryImage from '../utils/deleteCloudinaryImage';
 import googleClient from '../serverConfig/googleClient';
+import getCookieConfig from '../serverConfig/cookie';
 
 export const signup: RequestHandler = async (req, res, next) => {
     const {
         firstName, lastName, contact, address, email, username, password,
     } = req.body as { [param: string]: string };
-    const { SERVER_DOMAIN } = config.get('SERVER') as SERVER;
+    const { imageUrl } = res.locals;
     const fileName = req.file?.filename;
-    const imageUrl = fileName ? `${SERVER_DOMAIN}/image/${fileName}` : null;
     const imageName = req.file?.originalname;
 
     const dataBegin = {
@@ -67,7 +67,7 @@ export const signup: RequestHandler = async (req, res, next) => {
     } catch (err) {
         try {
             await db.query(dataRollback);
-            if (fileName) await deleteImage(fileName);
+            if (fileName) await deleteCloudinaryImage(fileName);
             return next(err);
         } catch (innerErr) {
             return next(innerErr);
@@ -81,16 +81,22 @@ export const signin: RequestHandler = (req, res, next) => {
     const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
     try {
         const token = jwt.sign({ userId }, SERVER_JWT_SECRET_KEY);
-        return res.json({
-            message: 'Signin successfully',
-            token,
-            user,
-            profile,
-        });
+        return res
+            .cookie('token', token, getCookieConfig(1000 * 60 * 60))
+            .json({
+                message: 'Signin successfully',
+                user,
+                profile,
+            });
     } catch (err) {
         return next(err);
     }
 };
+
+export const logout: RequestHandler = (req, res) => res
+    .clearCookie('token')
+    .json({ message: 'logout successfully' });
+
 
 export const getGoogleLoginUrl: RequestHandler = (req, res) => {
     const url = googleClient.generateAuthUrl({
@@ -152,12 +158,13 @@ export const verifyUser: RequestHandler = async (req, res, next) => {
         } : undefined;
         const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
         const token = jwt.sign({ userId }, SERVER_JWT_SECRET_KEY);
-        return res.json({
-            message: 'Signin successfully',
-            token,
-            user,
-            profile,
-        });
+        return res
+            .cookie('token', token, getCookieConfig(1000 * 60 * 60))
+            .json({
+                message: 'Signin successfully',
+                user,
+                profile,
+            });
     } catch (err) {
         return next(err);
     }

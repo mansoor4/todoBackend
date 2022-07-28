@@ -11,11 +11,18 @@ export type DB = {
 export type SERVER = {
     SERVER_PORT: number,
     SERVER_JWT_SECRET_KEY: Secret,
-    SERVER_DOMAIN: string,
+    SERVER_CLIENT_DOMAIN: string,
+    SERVER_SECURE: boolean,
 };
 
 export type GOOGLE = {
     GOOGLE_CLIENT_ID: string,
     GOOGLE_SECRET: string,
     GOOGLE_REDIRECT: string
+}
+
+export type CLOUDINARY = {
+    CLOUDINARY_CLOUD_NAME: string,
+    CLOUDINARY_API_KEY: string,
+    CLOUDINARY_API_SECRET: string,
 }

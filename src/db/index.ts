@@ -1,6 +1,6 @@
 import { Pool, PoolClient } from 'pg';
 import config from 'config';
-import { DB } from '../types/config';
+import { DB, SERVER } from '../types/config';
 
 
 interface Data {
@@ -12,15 +12,17 @@ const {
     DB_USER, DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT,
 } = config.get('DB') as DB;
 
+const { SERVER_SECURE } = config.get('SERVER') as SERVER;
+
 const pool = new Pool({
     user: DB_USER,
     host: DB_HOST,
     database: DB_DATABASE,
     password: DB_PASSWORD,
     port: DB_PORT,
-    ssl: {
+    ssl: SERVER_SECURE ? {
         rejectUnauthorized: false,
-    },
+    } : undefined,
 });
 const db = {
     query: (data: Data)

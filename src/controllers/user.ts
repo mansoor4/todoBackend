@@ -1,10 +1,8 @@
-import config from 'config';
 import { RequestHandler } from 'express';
 import { QueryArrayResult } from 'pg';
 import db from '../db';
-import deleteImage from '../utils/deleteImage';
+import deleteCloudinaryImage from '../utils/deleteCloudinaryImage';
 import errorHandler from '../utils/errorHandler';
-import { SERVER } from '../types/config';
 
 export const getUser: RequestHandler = async (_, res, next) => {
     const { userId } = res.locals;
@@ -57,10 +55,10 @@ export const updateUser: RequestHandler = async (req, res, next) => {
         firstName, lastName, contact, email, address, removeProfile,
     } = req.body;
     const { userId } = res.locals;
-    const { SERVER_DOMAIN } = config.get('SERVER') as SERVER;
+    const { imageUrl } = res.locals;
     const requestImageName = req.file?.originalname;
     const requestFileName = req.file?.filename;
-    const imageUrl = requestFileName ? `${SERVER_DOMAIN}/image/${requestFileName}` : null;
+
     const dataBegin = {
         text: 'BEGIN',
         values: [],
@@ -97,9 +95,9 @@ export const updateUser: RequestHandler = async (req, res, next) => {
         const { name: storedImageName, file_name: storedFileName } = result1.rows[0] as any;
         if (requestImageName) {
             if (requestImageName === storedImageName && requestFileName) {
-                await deleteImage(requestFileName);
+                await deleteCloudinaryImage(requestFileName);
             } else {
-                if (storedFileName) await deleteImage(storedFileName);
+                if (storedFileName) await deleteCloudinaryImage(storedFileName);
                 imageTableUpdate = true;
             }
         }
@@ -109,7 +107,7 @@ export const updateUser: RequestHandler = async (req, res, next) => {
         if (imageTableUpdate || removeProfile === 'true') {
             const result3: QueryArrayResult = await db.query(data3);
             if (result3.rowCount === 0) throw errorHandler('Fail to update image', 400);
-            if (removeProfile === 'true') await deleteImage(storedFileName);
+            if (removeProfile === 'true') await deleteCloudinaryImage(storedFileName);
         }
         await db.query(dataCommit);
         const result4: QueryArrayResult = await db.query(data4);
@@ -143,7 +141,7 @@ export const updateUser: RequestHandler = async (req, res, next) => {
     } catch (err) {
         try {
             await db.query(dataRollback);
-            if (requestFileName) await deleteImage(requestFileName);
+            if (requestFileName) await deleteCloudinaryImage(requestFileName);
             return next(err);
         } catch (innerErr) {
             return next(innerErr);
