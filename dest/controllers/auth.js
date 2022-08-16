@@ -151,7 +151,7 @@ var signin = function (req, res, next) {
     try {
         var token = (0, generateToken_1.default)(userId, 60 * 60);
         return res
-            .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
+            .cookie('token', token, (0, cookie_1.default)(1000 * 30))
             .json({
             message: 'Signin successfully',
             user: user,
@@ -248,7 +248,7 @@ var refreshToken = function (req, res, next) {
     try {
         var token = (0, generateToken_1.default)(userId, 60 * 60);
         return res
-            .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
+            .cookie('token', token, (0, cookie_1.default)(1000 * 30))
             .json({ message: 'done' });
     }
     catch (err) {
