@@ -1,14 +1,12 @@
 import { RequestHandler } from 'express';
 import { QueryArrayResult } from 'pg';
 import crypto from 'crypto';
-import config from 'config';
-import jwt from 'jsonwebtoken';
 import db from '../db';
 import errorHandler from '../utils/errorHandler';
-import { SERVER } from '../types/config';
 import deleteCloudinaryImage from '../utils/deleteCloudinaryImage';
 import googleClient from '../serverConfig/googleClient';
 import getCookieConfig from '../serverConfig/cookie';
+import generateToken from '../utils/generateToken';
 
 export const signup: RequestHandler = async (req, res, next) => {
     const {
@@ -78,15 +76,15 @@ export const signup: RequestHandler = async (req, res, next) => {
 export const signin: RequestHandler = (req, res, next) => {
     const { user, profile } = req.body;
     const { userId } = user;
-    const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
     try {
-        const token = jwt.sign({ userId }, SERVER_JWT_SECRET_KEY);
+        const token = generateToken(userId, 60 * 60);
         return res
             .cookie('token', token, getCookieConfig(1000 * 60 * 60))
             .json({
                 message: 'Signin successfully',
                 user,
                 profile,
+                userId,
             });
     } catch (err) {
         return next(err);
@@ -156,15 +154,28 @@ export const verifyUser: RequestHandler = async (req, res, next) => {
             url,
             fileName,
         } : undefined;
-        const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
-        const token = jwt.sign({ userId }, SERVER_JWT_SECRET_KEY);
+
+        const token = generateToken(userId, 60 * 60);
         return res
             .cookie('token', token, getCookieConfig(1000 * 60 * 60))
             .json({
                 message: 'Signin successfully',
                 user,
                 profile,
+                userId,
             });
+    } catch (err) {
+        return next(err);
+    }
+};
+
+export const refreshToken: RequestHandler = (req, res, next) => {
+    const { userId } = req.body;
+    try {
+        const token = generateToken(userId, 60 * 60);
+        return res
+            .cookie('token', token, getCookieConfig(1000 * 60 * 60))
+            .json({ message: 'done' });
     } catch (err) {
         return next(err);
     }

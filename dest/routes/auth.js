@@ -18,4 +18,5 @@ route.post('/signin', signinValidation_1.default, validationError_1.default, aut
 route.get('/logout', auth_1.logout);
 route.get('/getGoogleLoginUrl', auth_1.getGoogleLoginUrl);
 route.post('/verifyUser', auth_1.verifyUser);
+route.post('/refreshToken', auth_1.refreshToken);
 exports.default = route;

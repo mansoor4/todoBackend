@@ -8,9 +8,9 @@ const isAuthenticated: RequestHandler = (req, res, next) => {
     const { token } = req.cookies;
     const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
     try {
-        if (!token) throw errorHandler('You are not authenticated', 400);
+        if (!token) throw errorHandler('You are not authenticated', 401);
         const result = jwt.verify(token, SERVER_JWT_SECRET_KEY);
-        if (!result) throw errorHandler('You are not authenticated', 400);
+        if (!result) throw errorHandler('You are not authenticated', 401);
         const { userId } = result as JwtPayload;
         res.locals.userId = userId;
         return next();

@@ -8,7 +8,7 @@ import upload from '../serverConfig/multer';
 
 /* Import Controllers */
 import {
-    signup, signin, logout, getGoogleLoginUrl, verifyUser,
+    signup, signin, logout, getGoogleLoginUrl, verifyUser, refreshToken,
 } from '../controllers/auth';
 import cloudinaryUpload from '../middlewares/index/cloudinaryUpload';
 
@@ -20,4 +20,6 @@ route.get('/logout', logout);
 
 route.get('/getGoogleLoginUrl', getGoogleLoginUrl);
 route.post('/verifyUser', verifyUser);
+
+route.post('/refreshToken', refreshToken);
 export default route;

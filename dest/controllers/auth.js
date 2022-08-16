@@ -59,15 +59,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyUser = exports.getGoogleLoginUrl = exports.logout = exports.signin = exports.signup = void 0;
+exports.refreshToken = exports.verifyUser = exports.getGoogleLoginUrl = exports.logout = exports.signin = exports.signup = void 0;
 var crypto_1 = __importDefault(require("crypto"));
-var config_1 = __importDefault(require("config"));
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var db_1 = __importDefault(require("../db"));
 var errorHandler_1 = __importDefault(require("../utils/errorHandler"));
 var deleteCloudinaryImage_1 = __importDefault(require("../utils/deleteCloudinaryImage"));
 var googleClient_1 = __importDefault(require("../serverConfig/googleClient"));
 var cookie_1 = __importDefault(require("../serverConfig/cookie"));
+var generateToken_1 = __importDefault(require("../utils/generateToken"));
 var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, firstName, lastName, contact, address, email, username, password, imageUrl, fileName, imageName, dataBegin, data1, data2, dataCommit, dataRollback, salt, hash, result1, userId, result2, err_1, innerErr_1;
     var _b, _c;
@@ -149,15 +148,15 @@ exports.signup = signup;
 var signin = function (req, res, next) {
     var _a = req.body, user = _a.user, profile = _a.profile;
     var userId = user.userId;
-    var SERVER_JWT_SECRET_KEY = config_1.default.get('SERVER').SERVER_JWT_SECRET_KEY;
     try {
-        var token = jsonwebtoken_1.default.sign({ userId: userId }, SERVER_JWT_SECRET_KEY);
+        var token = (0, generateToken_1.default)(userId, 60 * 60);
         return res
             .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
             .json({
             message: 'Signin successfully',
             user: user,
             profile: profile,
+            userId: userId,
         });
     }
     catch (err) {
@@ -183,7 +182,7 @@ var getGoogleLoginUrl = function (req, res) {
 };
 exports.getGoogleLoginUrl = getGoogleLoginUrl;
 var verifyUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var code, resToken, idToken, resProfile, email, data, result, _a, userId, firstName, lastName, username, contact, address, createdAt, updatedAt, name_1, url, fileName, user, profile, SERVER_JWT_SECRET_KEY, token, err_2;
+    var code, resToken, idToken, resProfile, email, data, result, _a, userId, firstName, lastName, username, contact, address, createdAt, updatedAt, name_1, url, fileName, user, profile, token, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -227,14 +226,14 @@ var verifyUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
                     url: url,
                     fileName: fileName,
                 } : undefined;
-                SERVER_JWT_SECRET_KEY = config_1.default.get('SERVER').SERVER_JWT_SECRET_KEY;
-                token = jsonwebtoken_1.default.sign({ userId: userId }, SERVER_JWT_SECRET_KEY);
+                token = (0, generateToken_1.default)(userId, 60 * 60);
                 return [2 /*return*/, res
                         .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
                         .json({
                         message: 'Signin successfully',
                         user: user,
                         profile: profile,
+                        userId: userId,
                     })];
             case 5:
                 err_2 = _b.sent();
@@ -244,3 +243,16 @@ var verifyUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.verifyUser = verifyUser;
+var refreshToken = function (req, res, next) {
+    var userId = req.body.userId;
+    try {
+        var token = (0, generateToken_1.default)(userId, 60 * 60);
+        return res
+            .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
+            .json({ message: 'done' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+exports.refreshToken = refreshToken;
