@@ -17,6 +17,7 @@ var _a = config_1.default.get('SERVER'), SERVER_PORT = _a.SERVER_PORT, SERVER_CL
 /* Express App */
 var app = (0, express_1.default)();
 /* Middleware */
+app.set('trust proxy', 1);
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     credentials: true,

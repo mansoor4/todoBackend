@@ -18,6 +18,7 @@ const { SERVER_PORT, SERVER_CLIENT_URL } = config.get('SERVER') as SERVER;
 const app = express();
 
 /* Middleware */
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cors({
     credentials: true,

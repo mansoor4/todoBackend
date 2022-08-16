@@ -1,12 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { SERVER } from '../types/config';
-// const { SERVER_SECURE, SERVER_CLIENT_DOMAIN } = config.get('SERVER') as SERVER;
+var config_1 = __importDefault(require("config"));
+var _a = config_1.default.get('SERVER'), SERVER_SECURE = _a.SERVER_SECURE, SERVER_CLIENT_DOMAIN = _a.SERVER_CLIENT_DOMAIN;
 var getCookieConfig = function (expireTime) { return ({
     httpOnly: true,
-    secure: false,
+    secure: SERVER_SECURE,
     maxAge: expireTime,
-    sameSite: 'strict',
-    // domain: SERVER_SECURE ? SERVER_CLIENT_DOMAIN : 'localhost',
+    sameSite: SERVER_SECURE ? 'none' : 'strict',
+    domain: SERVER_SECURE ? SERVER_CLIENT_DOMAIN : 'localhost',
 }); };
 exports.default = getCookieConfig;
