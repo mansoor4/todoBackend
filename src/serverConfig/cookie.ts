@@ -8,7 +8,7 @@ const getCookieConfig = (expireTime: number): CookieOptions => ({
     httpOnly: true,
     secure: SERVER_SECURE,
     maxAge: expireTime,
-    sameSite: 'lax',
+    sameSite: 'strict',
     domain: SERVER_SECURE ? SERVER_CLIENT_DOMAIN : 'localhost',
 });
 
