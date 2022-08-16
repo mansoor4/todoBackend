@@ -79,7 +79,7 @@ export const signin: RequestHandler = (req, res, next) => {
     try {
         const token = generateToken(userId, 60 * 60);
         return res
-            .cookie('token', token, getCookieConfig(1000 * 30))
+            .cookie('token', token, getCookieConfig(1000 * 60*60))
             .json({
                 message: 'Signin successfully',
                 user,
@@ -174,7 +174,7 @@ export const refreshToken: RequestHandler = (req, res, next) => {
     try {
         const token = generateToken(userId, 60 * 60);
         return res
-            .cookie('token', token, getCookieConfig(1000 * 30))
+            .cookie('token', token, getCookieConfig(1000 * 60 * 60))
             .json({ message: 'done' });
     } catch (err) {
         return next(err);
