@@ -6,7 +6,7 @@ const { SERVER_SECURE, SERVER_CLIENT_DOMAIN } = config.get('SERVER') as SERVER;
 
 const getCookieConfig = (expireTime: number): CookieOptions => ({
     httpOnly: true,
-    secure: SERVER_SECURE,
+    // secure: SERVER_SECURE,
     maxAge: expireTime,
     sameSite: 'strict',
     domain: SERVER_SECURE ? SERVER_CLIENT_DOMAIN : 'localhost',
