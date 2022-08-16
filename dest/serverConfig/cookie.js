@@ -9,7 +9,7 @@ var getCookieConfig = function (expireTime) { return ({
     httpOnly: true,
     secure: SERVER_SECURE,
     maxAge: expireTime,
-    sameSite: 'strict',
+    sameSite: 'none',
     domain: SERVER_SECURE ? SERVER_CLIENT_DOMAIN : 'localhost',
 }); };
 exports.default = getCookieConfig;
