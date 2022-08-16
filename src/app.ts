@@ -12,7 +12,7 @@ import authRouter from './routes/auth';
 import errorHandler from './utils/errorHandler';
 
 /* Config */
-const { SERVER_PORT, SERVER_CLIENT_DOMAIN } = config.get('SERVER') as SERVER;
+const { SERVER_PORT, SERVER_CLIENT_URL } = config.get('SERVER') as SERVER;
 
 /* Express App */
 const app = express();
@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: SERVER_CLIENT_DOMAIN,
+    origin: SERVER_CLIENT_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
     allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept'],
 }));

@@ -11,6 +11,7 @@ export type DB = {
 export type SERVER = {
     SERVER_PORT: number,
     SERVER_JWT_SECRET_KEY: Secret,
+    SERVER_CLIENT_URL: string,
     SERVER_CLIENT_DOMAIN: string,
     SERVER_SECURE: boolean,
 };

@@ -13,14 +13,14 @@ var todo_1 = __importDefault(require("./routes/todo"));
 var auth_1 = __importDefault(require("./routes/auth"));
 var errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 /* Config */
-var _a = config_1.default.get('SERVER'), SERVER_PORT = _a.SERVER_PORT, SERVER_CLIENT_DOMAIN = _a.SERVER_CLIENT_DOMAIN;
+var _a = config_1.default.get('SERVER'), SERVER_PORT = _a.SERVER_PORT, SERVER_CLIENT_URL = _a.SERVER_CLIENT_URL;
 /* Express App */
 var app = (0, express_1.default)();
 /* Middleware */
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: SERVER_CLIENT_DOMAIN,
+    origin: SERVER_CLIENT_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
     allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept'],
 }));
