@@ -21,7 +21,8 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     credentials: true,
     origin: SERVER_CLIENT_DOMAIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
+    allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept'],
 }));
 app.use((0, cookie_parser_1.default)());
 /* Routes */

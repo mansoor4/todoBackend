@@ -22,7 +22,8 @@ app.use(express.json());
 app.use(cors({
     credentials: true,
     origin: SERVER_CLIENT_DOMAIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
+    allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept'],
 }));
 app.use(cookieParser());
 
