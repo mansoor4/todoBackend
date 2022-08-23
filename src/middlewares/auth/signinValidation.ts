@@ -22,7 +22,7 @@ const signinValidation = [
             };
             try {
                 const result: QueryArrayResult = await db.query(data);
-                if (result.rowCount === 0) throw errorHandler('Username is incorrect', 400);
+                if (result.rowCount === 0) throw errorHandler('You have not register,Please register', 400);
                 const {
                     user_id: userId,
                     first_name: firstName,

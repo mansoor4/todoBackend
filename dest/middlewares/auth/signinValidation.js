@@ -72,7 +72,7 @@ var signinValidation = [
                     case 2:
                         result = _c.sent();
                         if (result.rowCount === 0)
-                            throw (0, errorHandler_1.default)('Username is incorrect', 400);
+                            throw (0, errorHandler_1.default)('You have not register,Please register', 400);
                         _b = result.rows[0], userId = _b.user_id, firstName = _b.first_name, lastName = _b.last_name, email = _b.email, contact = _b.contact, address = _b.address, password = _b.password, salt = _b.salt, createdAt = _b.created_at, updatedAt = _b.updated_at, name_1 = _b.name, url = _b.url, fileName = _b.file_name;
                         hash = crypto_1.default.pbkdf2Sync(value, salt, 1000, 64, 'sha512').toString('hex');
                         if (hash !== password)

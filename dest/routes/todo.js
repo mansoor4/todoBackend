@@ -11,8 +11,8 @@ var validationError_1 = __importDefault(require("../middlewares/index/validation
 /* Import Controllers */
 var todo_1 = require("../controllers/todo");
 var router = (0, express_1.Router)();
-router.post('/', todoValidation_1.default, validationError_1.default, isAuthenticated_1.default, todo_1.createTodo);
-router.get('/', isAuthenticated_1.default, todo_1.getTodo);
-router.put('/:todoId', todoValidation_1.default, validationError_1.default, isAuthenticated_1.default, todo_1.updateTodo);
+router.post('/', isAuthenticated_1.default, todoValidation_1.default, validationError_1.default, todo_1.createTodo);
+router.get('/', isAuthenticated_1.default, todo_1.getAllTodo);
+router.put('/:todoId', isAuthenticated_1.default, todoValidation_1.default, validationError_1.default, todo_1.updateTodo);
 router.delete('/:todoId', isAuthenticated_1.default, todo_1.deleteTodo);
 exports.default = router;

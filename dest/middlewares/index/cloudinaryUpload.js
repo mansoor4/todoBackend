@@ -39,9 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = __importDefault(require("config"));
 // import path from 'path';
-var cloudinary_1 = __importDefault(require("../../serverConfig/cloudinary"));
+var cloudinary_1 = require("../../serverConfig/cloudinary");
 var deleteLocalImage_1 = __importDefault(require("../../utils/deleteLocalImage"));
+var CLOUDINARY_FOLDER_NAME = config_1.default.get('CLOUDINARY').CLOUDINARY_FOLDER_NAME;
 var cloudinaryUpload = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var file, fileName, filePath, result, err_1, err_2;
     return __generator(this, function (_a) {
@@ -57,7 +59,9 @@ var cloudinaryUpload = function (req, res, next) { return __awaiter(void 0, void
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, cloudinary_1.default.upload(filePath, { public_id: fileName })];
+                return [4 /*yield*/, cloudinary_1.cloudinaryUploader.upload(filePath, {
+                        public_id: fileName, folder: CLOUDINARY_FOLDER_NAME,
+                    })];
             case 2:
                 result = _a.sent();
                 res.locals.imageUrl = result.url;

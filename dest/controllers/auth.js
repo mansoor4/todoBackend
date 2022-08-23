@@ -157,6 +157,7 @@ var signin = function (req, res, next) {
             user: user,
             profile: profile,
             userId: userId,
+            token: token,
         });
     }
     catch (err) {
@@ -178,7 +179,7 @@ var getGoogleLoginUrl = function (req, res) {
         ],
         prompt: 'consent',
     });
-    return res.send(url);
+    return res.json(url);
 };
 exports.getGoogleLoginUrl = getGoogleLoginUrl;
 var verifyUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
@@ -234,6 +235,7 @@ var verifyUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
                         user: user,
                         profile: profile,
                         userId: userId,
+                        token: token,
                     })];
             case 5:
                 err_2 = _b.sent();
@@ -249,7 +251,7 @@ var refreshToken = function (req, res, next) {
         var token = (0, generateToken_1.default)(userId, 60 * 60);
         return res
             .cookie('token', token, (0, cookie_1.default)(1000 * 60 * 60))
-            .json({ message: 'done' });
+            .json({ token: token });
     }
     catch (err) {
         return next(err);

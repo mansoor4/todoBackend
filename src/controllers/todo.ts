@@ -20,12 +20,11 @@ export const createTodo: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const getTodo: RequestHandler = async (req, res, next) => {
-    const { todoId } = req.query;
+export const getAllTodo: RequestHandler = async (req, res, next) => {
     const { userId } = res.locals;
     const data = {
-        text: todoId ? 'SELECT todo_id,title,description,complete FROM todo WHERE todo_id=$1 AND user_id=$2' : 'SELECT todo_id,title,description,complete FROM todo WHERE user_id=$1 ORDER BY created_at DESC',
-        values: todoId ? [todoId, userId] : [userId],
+        text: 'SELECT todo_id,title,description,complete FROM todo WHERE user_id=$1 ORDER BY created_at DESC',
+        values: [userId],
     };
 
     try {

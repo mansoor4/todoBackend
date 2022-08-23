@@ -17,4 +17,5 @@ cloudinaryConfig.config({
     api_secret: CLOUDINARY_API_SECRET,
 });
 
-export default cloudinaryConfig.uploader;
+export const cloudinaryUploader = cloudinaryConfig.uploader;
+export const cloudinaryApi = cloudinaryConfig.api;

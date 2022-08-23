@@ -1,9 +1,26 @@
 {
     "DB": {
-        "DB_DATABASE": "task",
+        "DB_DATABASE": "test",
         "DB_USER": "postgres",
         "DB_PASSWORD": "12345",
         "DB_HOST": "localhost",
         "DB_PORT": 5432
+    },
+    "SERVER": {
+        "SERVER_PORT": 8000,
+        "SERVER_JWT_SECRET_KEY": "This is my todo backend having all the authentication functionalities",
+        "SERVER_CLIENT_URL": "http://localhost:3000",
+        "SERVER_SECURE": false
+    },
+    "GOOGLE": {
+        "GOOGLE_CLIENT_ID": "139737972278-7nb5fniqugopj8bl4iji5j2c00grd2rc.apps.googleusercontent.com",
+        "GOOGLE_SECRET": "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",
+        "GOOGLE_REDIRECT": "http://localhost:3000/signin"
+    },
+    "CLOUDINARY": {
+        "CLOUDINARY_CLOUD_NAME": "dwxpvxx0p",
+        "CLOUDINARY_API_KEY": "942399148518514",
+        "CLOUDINARY_API_SECRET": "5qFDGGvy5cWsAi1njqROZCWWLJk",
+        "CLOUDINARY_FOLDER_NAME": "todo_test"
     }
 }

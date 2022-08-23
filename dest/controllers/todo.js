@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTodo = exports.updateTodo = exports.getTodo = exports.createTodo = void 0;
+exports.deleteTodo = exports.updateTodo = exports.getAllTodo = exports.createTodo = void 0;
 var db_1 = __importDefault(require("../db"));
 var errorHandler_1 = __importDefault(require("../utils/errorHandler"));
 var createTodo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
@@ -70,16 +70,15 @@ var createTodo = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.createTodo = createTodo;
-var getTodo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var todoId, userId, data, result, err_2;
+var getAllTodo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userId, data, result, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                todoId = req.query.todoId;
                 userId = res.locals.userId;
                 data = {
-                    text: todoId ? 'SELECT todo_id,title,description,complete FROM todo WHERE todo_id=$1 AND user_id=$2' : 'SELECT todo_id,title,description,complete FROM todo WHERE user_id=$1 ORDER BY created_at DESC',
-                    values: todoId ? [todoId, userId] : [userId],
+                    text: 'SELECT todo_id,title,description,complete FROM todo WHERE user_id=$1 ORDER BY created_at DESC',
+                    values: [userId],
                 };
                 _a.label = 1;
             case 1:
@@ -95,7 +94,7 @@ var getTodo = function (req, res, next) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-exports.getTodo = getTodo;
+exports.getAllTodo = getAllTodo;
 var updateTodo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var todoId, _a, title, description, complete, userId, data, result, err_3;
     return __generator(this, function (_b) {

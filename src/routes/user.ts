@@ -15,7 +15,7 @@ import cloudinaryUpload from '../middlewares/index/cloudinaryUpload';
 const router = Router();
 
 router.get('/', isAuthenticated, getUser);
-router.put('/', upload.single('profile'), cloudinaryUpload, userValidation, validationError, isAuthenticated, updateUser);
+router.put('/', isAuthenticated, upload.single('profile'), cloudinaryUpload, userValidation, validationError, updateUser);
 
 
 export default router;

@@ -85,6 +85,7 @@ export const signin: RequestHandler = (req, res, next) => {
                 user,
                 profile,
                 userId,
+                token,
             });
     } catch (err) {
         return next(err);
@@ -106,7 +107,7 @@ export const getGoogleLoginUrl: RequestHandler = (req, res) => {
         ],
         prompt: 'consent',
     });
-    return res.send(url);
+    return res.json(url);
 };
 
 export const verifyUser: RequestHandler = async (req, res, next) => {
@@ -163,6 +164,7 @@ export const verifyUser: RequestHandler = async (req, res, next) => {
                 user,
                 profile,
                 userId,
+                token,
             });
     } catch (err) {
         return next(err);
@@ -175,7 +177,7 @@ export const refreshToken: RequestHandler = (req, res, next) => {
         const token = generateToken(userId, 60 * 60);
         return res
             .cookie('token', token, getCookieConfig(1000 * 60 * 60))
-            .json({ message: 'done' });
+            .json({ token });
     } catch (err) {
         return next(err);
     }

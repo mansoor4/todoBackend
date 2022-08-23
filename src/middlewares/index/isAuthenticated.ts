@@ -5,10 +5,13 @@ import errorHandler from '../../utils/errorHandler';
 import { SERVER } from '../../types/config';
 
 const isAuthenticated: RequestHandler = (req, res, next) => {
-    const { token } = req.cookies;
     const { SERVER_JWT_SECRET_KEY } = config.get('SERVER') as SERVER;
     try {
-        if (!token) throw errorHandler('You are not authenticated', 401);
+        const authHeader = req.headers.authorization;
+        if (!authHeader) throw errorHandler('You are not authenticated', 401);
+        const type = authHeader.split(' ')[0];
+        const token = authHeader.split(' ')[1];
+        if (!token || type !== 'Bearer') throw errorHandler('You are not authenticated', 401);
         const result = jwt.verify(token, SERVER_JWT_SECRET_KEY);
         if (!result) throw errorHandler('You are not authenticated', 401);
         const { userId } = result as JwtPayload;

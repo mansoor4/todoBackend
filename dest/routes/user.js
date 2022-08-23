@@ -14,5 +14,5 @@ var user_1 = require("../controllers/user");
 var cloudinaryUpload_1 = __importDefault(require("../middlewares/index/cloudinaryUpload"));
 var router = (0, express_1.Router)();
 router.get('/', isAuthenticated_1.default, user_1.getUser);
-router.put('/', multer_1.default.single('profile'), cloudinaryUpload_1.default, userValidation_1.default, validationError_1.default, isAuthenticated_1.default, user_1.updateUser);
+router.put('/', isAuthenticated_1.default, multer_1.default.single('profile'), cloudinaryUpload_1.default, userValidation_1.default, validationError_1.default, user_1.updateUser);
 exports.default = router;

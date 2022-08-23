@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.cloudinaryApi = exports.cloudinaryUploader = void 0;
 /* eslint-disable camelcase */
 var cloudinary_1 = __importDefault(require("cloudinary"));
 var config_1 = __importDefault(require("config"));
@@ -13,4 +14,5 @@ cloudinaryConfig.config({
     api_key: CLOUDINARY_API_KEY,
     api_secret: CLOUDINARY_API_SECRET,
 });
-exports.default = cloudinaryConfig.uploader;
+exports.cloudinaryUploader = cloudinaryConfig.uploader;
+exports.cloudinaryApi = cloudinaryConfig.api;

@@ -36,8 +36,9 @@ app.use(cors({
     credentials: true,
     origin: SERVER_CLIENT_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'UPDATE'],
-    allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept'],
+    allowedHeaders: ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept', 'Authorization'],
 }));
+
 app.use(cookieParser());
 
 /* Routes */
